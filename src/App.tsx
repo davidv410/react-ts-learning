@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { Homepage } from "@/pages/homepage.tsx";
 import { Movies } from "@/pages/movies.tsx";
-import { MovieDetail } from "@/pages/MovieDetail.tsx";
+import { MovieDetail } from "@/pages/movieDetail.tsx";
 import { Login } from "@/pages/login.tsx";
 import { Reservations } from "@/pages/reservations.tsx";
 
