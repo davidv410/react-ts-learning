@@ -4,6 +4,7 @@ import { Movies } from "@/pages/movies.tsx";
 import { MovieDetail } from "@/pages/movieDetail.tsx";
 import { Login } from "@/pages/login.tsx";
 import { Reservations } from "@/pages/reservations.tsx";
+import { ProtectedRoute } from "@/pages/ProtectedRoute.tsx";
 
 function App() {
 
@@ -15,7 +16,11 @@ function App() {
                 <Route path="/movies" element={<Movies />} />
                 <Route path="/movies/:id" element={<MovieDetail />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/reservations" element={<Reservations />} />
+                <Route path="/reservations" element={
+                    <ProtectedRoute>
+                        <Reservations />
+                    </ProtectedRoute>
+                } />
             </Routes>
         </main>
     </>
