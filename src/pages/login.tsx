@@ -1,33 +1,7 @@
-import { loginUser } from "@/features/auth/api.ts";
-import { useAuth } from "@/features/auth/context.tsx";
-import { useForm } from "react-hook-form";
-import { zodResolver } from '@hookform/resolvers/zod'
-import {type LoginFormData, loginSchema} from "@/features/auth/schema.ts";
-import { useNavigate } from 'react-router-dom'
-
+import { useLogin } from "@/features/auth/hooks/useLogin.ts";
 
 export const Login = () => {
-    const { login } = useAuth()
-    const navigate = useNavigate()
-
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting }
-    } = useForm<LoginFormData>({
-        resolver: zodResolver(loginSchema)
-    })
-
-
-    const submitForm = async (data: LoginFormData) => {
-        try{
-            const response = await loginUser(data)
-            login(response.user)
-            navigate('/')
-        }catch(err){
-            console.log(err)
-        }
-    }
+    const { register, handleSubmit, submitForm, errors, isSubmitting } = useLogin()
     return(
         <>
            <form onSubmit={handleSubmit(submitForm)}>
