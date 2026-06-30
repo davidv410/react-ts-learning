@@ -1,4 +1,4 @@
-import {useMovie} from "@/features/movies/hooks/useMovie.ts";
+import { useMovie } from "@/features/movies/hooks/useMovie.ts";
 import { useParams } from "react-router-dom";
 
 export const MovieDetail = () => {
