@@ -3,7 +3,7 @@ import {fetchShowtime} from "@/features/showtimes/api.ts";
 
 export const useShowtime = (id: string) => {
     return useQuery({
-        queryKey: [],
+        queryKey: ['showtime', id],
         queryFn: () => fetchShowtime(id)
     })
 }
