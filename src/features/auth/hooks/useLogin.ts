@@ -21,6 +21,7 @@ export const useLogin = () => {
     const submitForm = async (data: LoginFormData) => {
         try{
             const response = await loginUser(data)
+            console.log(response)
             login(response.user)
             navigate('/')
         }catch(err){
