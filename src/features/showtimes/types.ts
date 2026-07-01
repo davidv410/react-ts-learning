@@ -21,3 +21,19 @@ export type Seats = {
 export type SeatsProps = {
     showtimeId: string
 }
+
+export type CreateReservationBody = {
+    showtimeId: string;
+    seatId: string;
+}
+
+export type ReservationResponse = {
+    id: string;
+    userId: number;
+    showtimeId: string;
+    seatId: string;
+    status: string;
+    pricePaid: string;
+    createdAt: string;
+    cancelledAt: string | null;
+}
