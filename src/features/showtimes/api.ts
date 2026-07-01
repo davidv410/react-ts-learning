@@ -1,8 +1,10 @@
 import { api } from '@/lib/axios';
 import type {Showtime, Seats, CreateReservationBody, ReservationResponse} from "@/features/showtimes/types.ts";
 
-export const fetchShowtimes = async () => {
-    const { data } = await api.get<{ showtimes: Showtime[] }>('/showtimes')
+export const fetchShowtimes = async (movieId?: string) => {
+    const { data } = await api.get<{ showtimes: Showtime[] }>('/showtimes', {
+        params: { movieId }
+    })
     return data.showtimes ?? []
 }
 

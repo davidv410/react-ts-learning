@@ -18,7 +18,14 @@ export const Seats = ({ showtimeId }: SeatsProps) => {
     const confirmSeatReservation = () => {
         if(selectedSeats.length === 0){ return console.log("no seats selected") }
         selectedSeats.forEach(seatId => {
-            mutate({ showtimeId, seatId })
+            mutate({ showtimeId, seatId }, {
+                onSuccess: (data) => {
+                    console.log('Reservation created:', data)
+                },
+                onError: (err) => {
+                    console.log('Failed:', err)
+                }
+            })
         })
         console.log('seat reservation created')
     }
