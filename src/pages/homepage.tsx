@@ -14,6 +14,12 @@ export const Homepage = () => {
         <>
             <p>{user?.email}</p>
             <button onClick={() => handleLogout()}>Logout</button>
+
+            <ul>
+                <li><button className="cursor-pointer border" onClick={() => navigate('/movies')}>movies</button></li>
+                <li><button className="cursor-pointer border" onClick={() => navigate('/reservations')}>reservations</button></li>
+                <li><button className="cursor-pointer border" onClick={() => navigate('/showtimes')}>showtimes</button></li>
+            </ul>
         </>
     )
 }
