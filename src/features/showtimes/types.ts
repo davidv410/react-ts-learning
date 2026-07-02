@@ -18,6 +18,22 @@ export type Seats = {
     isAvailable: boolean;
 }
 
+export type Movie = {
+    id: string;
+    title: string;
+    description: string;
+    posterUrl: string | null;
+    durationMinutes: number;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export type ShowtimeWithMovie = {
+    showtimes: Showtime;
+    movies: Movie,
+}
+
 export type SeatsProps = {
     showtimeId: string
 }
