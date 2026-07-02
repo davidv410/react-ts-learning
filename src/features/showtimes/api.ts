@@ -11,7 +11,6 @@ export const fetchShowtimes = async (movieId?: string) => {
     const { data } = await api.get<{ showtimes: ShowtimeWithMovie[] }>('/showtimes', {
         params: { movieId }
     })
-    console.log(data)
     return data.showtimes ?? []
 }
 
