@@ -20,6 +20,7 @@ api.interceptors.response.use((response) => response,
             originalRequest._retry = true
 
             try{
+                console.log("TOKEN REFRESHED")
                 await api.post('/auth/refresh')
                 return api(originalRequest)
             }catch{
