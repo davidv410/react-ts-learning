@@ -1,7 +1,11 @@
 import {useCreateMovie} from "@/features/movies/hooks/useCreateMovie.ts";
+import {useGenres} from "@/features/movies/hooks/useGenres.ts";
 
 export const CreateMovieForm = () => {
-    const { register, handleSubmit, submitForm, setValue, errors, isSubmitting } = useCreateMovie();
+    const { register, handleSubmit, submitForm, setValue, getValues, errors, isSubmitting } = useCreateMovie();
+
+    const { data, isLoading, error } = useGenres()
+
     return (
         <>
             <form className="mt-10" onSubmit={handleSubmit(submitForm)}>
@@ -15,20 +19,31 @@ export const CreateMovieForm = () => {
                 <input className="border" {...register('durationMinutes', { valueAsNumber: true })} placeholder="duration in minutes"></input><br/>
                 {errors.durationMinutes && <p>{errors.durationMinutes.message}</p>}
 
-                <label>
-                    <input
-                        type="checkbox"
-                        value="7e4c22d1-003f-457e-927b-160713166602"
-                        onChange={(e) => {
-                            if (e.target.checked) {
-                                setValue('genreIds', [e.target.value])
-                            } else {
-                                setValue('genreIds', [])
-                            }
-                        }}
-                    />
-                    Action
-                </label><br/>
+
+                {isLoading && <p>Loading genres...</p>}
+                {error && <p>Failed to load genres</p>}
+                {
+                    (data ?? []).map(genre => (
+                        <>
+                        <label>
+                            <input
+                                type="checkbox"
+                                value={genre.id}
+                                onChange={(e) => {
+                                    const current = getValues('genreIds') ?? []
+                                    if (e.target.checked) {
+                                        setValue('genreIds', [...current, e.target.value])
+                                    } else {
+                                        setValue('genreIds', [])
+                                    }
+                                }}
+                            />
+                            {genre.name}
+                        </label><br/>
+                        </>
+                    ))
+                }
+
                 {errors.genreIds && <p>{errors.genreIds.message}</p>}
 
                 <button className="border cursor-pointer" type="submit" disabled={isSubmitting}>

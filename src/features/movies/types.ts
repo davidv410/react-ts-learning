@@ -8,3 +8,9 @@ export type Movie = {
     createdAt: string;
     updatedAt: string;
 }
+
+export type Genre = {
+    id: string
+    name: string
+    slug: string
+}

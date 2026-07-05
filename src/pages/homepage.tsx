@@ -6,13 +6,17 @@ import {useState} from "react";
 
 export const Homepage = () => {
     const { user, logout } = useAuth()
+
     const navigate = useNavigate()
+
     const [showMovieForm, setShowMovieForm] = useState(false)
+
     const handleLogout = async () => {
         await logoutUser()
         logout()
         navigate("/login")
     }
+
     return(
         <>
             { user &&
