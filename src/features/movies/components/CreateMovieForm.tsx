@@ -2,7 +2,7 @@ import {useCreateMovie} from "@/features/movies/hooks/useCreateMovie.ts";
 import {useGenres} from "@/features/movies/hooks/useGenres.ts";
 
 export const CreateMovieForm = () => {
-    const { register, handleSubmit, submitForm, setValue, getValues, errors, isSubmitting } = useCreateMovie();
+    const { register, handleSubmit, submitForm, errors, isSubmitting, movieSuccessMessage } = useCreateMovie();
 
     const { data, isLoading, error } = useGenres()
 
@@ -29,21 +29,14 @@ export const CreateMovieForm = () => {
                             <input
                                 type="checkbox"
                                 value={genre.id}
-                                onChange={(e) => {
-                                    const current = getValues('genreIds') ?? []
-                                    if (e.target.checked) {
-                                        setValue('genreIds', [...current, e.target.value])
-                                    } else {
-                                        setValue('genreIds', [])
-                                    }
-                                }}
+                                {...register('genreIds')}
                             />
                             {genre.name}
                         </label><br/>
                         </>
                     ))
                 }
-
+                { movieSuccessMessage && <p>{movieSuccessMessage}</p>}
                 {errors.genreIds && <p>{errors.genreIds.message}</p>}
 
                 <button className="border cursor-pointer" type="submit" disabled={isSubmitting}>
