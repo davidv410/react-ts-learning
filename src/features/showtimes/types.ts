@@ -53,3 +53,13 @@ export type ReservationResponse = {
     createdAt: string;
     cancelledAt: string | null;
 }
+
+export type ShowtimeResponse = {
+    id: string;
+    movieId: string;
+    startsAt: string;
+    endsAt: string;
+    hall: string;
+    totalSeats: number;
+    createdAt: string;
+}

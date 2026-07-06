@@ -4,7 +4,8 @@ import type {
     Seats,
     CreateReservationBody,
     ReservationResponse,
-    ShowtimeWithMovie
+    ShowtimeWithMovie,
+    ShowtimeResponse
 } from "@/features/showtimes/types.ts";
 
 export const fetchShowtimes = async (movieId?: string) => {
@@ -26,5 +27,10 @@ export const fetchSeats = async (id: string) => {
 
 export const createReservation = async (reservation: CreateReservationBody) => {
     const { data } = await api.post<ReservationResponse>('/reservations', reservation)
+    return data
+}
+
+export const createShowtime = async (showtime: unknown) => {
+    const { data } = await api.post<ShowtimeResponse>('/showtimes', showtime)
     return data
 }

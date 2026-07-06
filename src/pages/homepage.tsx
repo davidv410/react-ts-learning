@@ -3,6 +3,7 @@ import { logoutUser } from "@/features/auth/api.ts";
 import {useNavigate} from "react-router-dom";
 import {CreateMovieForm} from "@/features/movies/components/CreateMovieForm.tsx";
 import {useState} from "react";
+import {CreateShowtimeForm} from "@/features/showtimes/components/CreateShowtimeForm.tsx"
 
 export const Homepage = () => {
     const { user, logout } = useAuth()
@@ -10,6 +11,7 @@ export const Homepage = () => {
     const navigate = useNavigate()
 
     const [showMovieForm, setShowMovieForm] = useState(false)
+    const [showtimeForm, setShowtimeForm] = useState(false)
 
     const handleLogout = async () => {
         await logoutUser()
@@ -35,9 +37,12 @@ export const Homepage = () => {
             { user?.role === "admin" &&
                 <>
                     <button className="border" onClick={() => setShowMovieForm(!showMovieForm)}>Add movies</button><br></br>
-                    <button className="border">Create showtimes</button>
+                    <button className="border" onClick={() => setShowtimeForm(!showtimeForm)}>Create showtimes</button>
                     { showMovieForm &&
                         <CreateMovieForm/>
+                    }
+                    { showtimeForm &&
+                        <CreateShowtimeForm/>
                     }
                 </>
             }
