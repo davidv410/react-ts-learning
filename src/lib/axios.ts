@@ -9,10 +9,10 @@ api.interceptors.response.use((response) => response,
     async (error) => {
         const originalRequest = error.config
 
-        if (
-            originalRequest.url?.includes('/auth/refresh') ||
-            originalRequest.url?.includes('/auth/me')
-        ) {
+        if (originalRequest.url?.includes('/auth/refresh')) {
+            if (window.location.pathname !== '/login') {
+                window.location.href = "/login"
+            }
             return Promise.reject(error)
         }
 
@@ -20,11 +20,12 @@ api.interceptors.response.use((response) => response,
             originalRequest._retry = true
 
             try{
-                console.log("TOKEN REFRESHED")
                 await api.post('/auth/refresh')
                 return api(originalRequest)
-            }catch{
-                window.location.href = "/login"
+            }catch(err: any){
+                if (window.location.pathname !== '/login') {
+                    window.location.href = "/login"
+                }
             }
         }
 
