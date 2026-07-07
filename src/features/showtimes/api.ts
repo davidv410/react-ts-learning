@@ -34,3 +34,8 @@ export const createShowtime = async (showtime: unknown) => {
     const { data } = await api.post<ShowtimeResponse>('/showtimes', showtime)
     return data
 }
+
+export const removeShowtime = async (id: string) => {
+    const { data } = await api.delete(`/showtimes/${id}`)
+    return data
+}
