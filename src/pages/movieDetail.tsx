@@ -6,7 +6,6 @@ export const MovieDetail = () => {
     const { id } = useParams()
     const navigate = useNavigate();
 
-
     const { data, isLoading, error } = useShowtimes(id)
 
     if(!id) return <p>Movie not found</p>

@@ -21,3 +21,8 @@ export const createMovie = async (movie: CreateMovieFormData) => {
     const { data } = await api.post('/movies', movie)
     return data
 }
+
+export const removeMovie = async (id: string) => {
+    const { data } = await api.delete(`/movies/${id}`)
+    return data
+}
