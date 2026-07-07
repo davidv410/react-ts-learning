@@ -1,9 +1,12 @@
 import {useReservation} from "@/features/reservations/hooks/useReservation.ts";
 import {useCancelReservation} from "@/features/reservations/hooks/useCancelReservation.ts";
+import {useAuth} from "@/features/auth/context.tsx";
 
 export const Reservations = () => {
 
     const { data, isLoading, error } = useReservation();
+
+    const { user } = useAuth()
 
     const { mutate } = useCancelReservation()
 
@@ -12,7 +15,8 @@ export const Reservations = () => {
 
     return(
         <>
-            <p>Your reservations</p>
+
+            <p>{ user?.role === 'admin' ? "ALL RESERVATIONS" : "YOUR RESERVATIONS" }</p>
 
             {
                 (data ?? []).map(item => (
