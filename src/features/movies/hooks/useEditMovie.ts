@@ -1,0 +1,53 @@
+import type {Movie} from '@/features/movies/types.ts'
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {type EditMovieFormData, editMovieSchema} from "@/features/movies/schema.ts";
+import {useMutation} from "@tanstack/react-query";
+import {updateMovie} from "@/features/movies/api.ts";
+import {useQueryClient} from "@tanstack/react-query";
+import {useEffect} from "react";
+
+export const useEditMovie = (movie: Movie) => {
+    const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<EditMovieFormData>({
+        resolver: zodResolver(editMovieSchema),
+        defaultValues: {
+            title: movie.title,
+            description: movie.description ?? '',
+            durationMinutes: movie.durationMinutes,
+            genreIds: movie.genreIds ?? []
+        }
+    })
+
+    useEffect(() => {
+        reset({
+            title: movie.title,
+            description: movie.description ?? '',
+            durationMinutes: movie.durationMinutes,
+            genreIds: movie.genreIds ?? []
+        })
+    }, [movie])
+
+    const queryClient = useQueryClient();
+
+    const { mutate } = useMutation({
+        mutationFn: updateMovie,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['movie', movie.id] });
+            reset()
+        },
+        onError: (err) => {
+            console.log(err)
+        }
+    })
+
+    const submitForm = (movieData: EditMovieFormData) => {
+        try{
+            console.log(movieData)
+            mutate({ id: movie.id, movieData })
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+    return { register, handleSubmit, submitForm, errors, isSubmitting }
+}

@@ -9,7 +9,7 @@ export const Showtimes = () => {
     const { user } = useAuth()
 
     const { data, isLoading, error } = useShowtimes()
-
+    console.log(data)
     const { mutate, isPending } = useRemoveShowtime()
 
     if(isLoading) return <p>Loading</p>
@@ -23,7 +23,8 @@ export const Showtimes = () => {
                        <p>{item.showtimes.hall}</p>
                        <p>{item.showtimes.totalSeats} seats</p>
                        <p>{item.showtimes.startsAt}</p>
-                       <p>Playing: {item.movies.title}</p>
+                       { item.movies ? <p>Playing: {item.movies.title}</p> : <p>Movie was deleted, fix in DB</p> }
+
                        <button onClick={() => navigate(`/showtimes/${item.showtimes.id}`)} className="border cursor-pointer">CHECK SEATS</button>
 
                        { user?.role === 'admin' &&
