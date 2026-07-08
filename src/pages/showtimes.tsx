@@ -30,7 +30,6 @@ export const Showtimes = () => {
                        { user?.role === 'admin' &&
                            <>
                                <button className="border cursor-pointer mt-2 mb-2" onClick={() => mutate(item.showtimes.id)} disabled={isPending}>REMOVE SHOWTIME</button>
-                               <button className="border cursor-pointer">EDIT SHOWTIME</button>
                            </>
                        }
                    </div>

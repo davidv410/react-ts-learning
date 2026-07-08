@@ -6,6 +6,7 @@ import {useRemoveMovie} from "@/features/movies/hooks/useRemoveMovie.ts";
 import {useMovie} from "@/features/movies/hooks/useMovie.ts";
 import {EditMovieForm} from "@/features/movies/components/EditMovieForm.tsx";
 import {useState} from "react";
+import {useShowtimeReport} from "@/features/movies/hooks/useShowtimeReport.ts";
 
 export const MovieDetail = () => {
     const { id = '' } = useParams()
@@ -15,6 +16,7 @@ export const MovieDetail = () => {
     const { mutate, isPending } = useRemoveMovie();
 
     const { data: movieData, isLoading: movieLoading, error: movieError } = useMovie(id)
+    const { data: showtimeReport, isLoading: showtimeLoading, error: showtimeError } = useShowtimeReport(id)
     const { data, isLoading, error } = useShowtimes(id)
 
     const [form, setForm] = useState<boolean>(false)
@@ -36,7 +38,7 @@ export const MovieDetail = () => {
             </ul>
 
         {(data ?? []).map(item => (
-            <div className="border">
+            <div className="border" key={item.showtimes.id}>
                 <p>{item.showtimes.hall}</p>
                 <p>Starts at {item.showtimes.startsAt}</p>
                 <p>total seats: {item.showtimes.totalSeats}</p>
@@ -48,7 +50,7 @@ export const MovieDetail = () => {
                         <button className="cursor-pointer border" onClick={() => toggleForm()}>EDIT MOVIE</button><br/>
                         <button className="cursor-pointer border" onClick={() => mutate(movieData.id)} disabled={isPending}>
                             REMOVE MOVIE
-                        </button>
+                        </button><br/>
 
                     { form &&
                     <EditMovieForm movie={movieData}/>
@@ -56,6 +58,31 @@ export const MovieDetail = () => {
 
                     </div>
                 }
+
+                <h1>SHOWTIME REPORT</h1>
+
+
+
+            {showtimeLoading ? (
+                <p>Loading report...</p>
+            ) : showtimeError ? (
+                <p>Failed to load report.</p>
+            ) : showtimeReport && showtimeReport.length > 0 ? (
+                <div>
+                    {showtimeReport.map(report => (
+                        <div key={report.showtimeId} className="border m-2">
+                            <p>{report.hall}</p>
+                            <p>{report.revenue} KM</p>
+                            <p>Total seats: {report.totalSeats}</p>
+                            <p>Available seats: {report.seatsAvailable}</p>
+                            <p>Taken seats: {report.seatsTaken}</p>
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <p>No reports available.</p>
+            )}
+
 
         </>
     )

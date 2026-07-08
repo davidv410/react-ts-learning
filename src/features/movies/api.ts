@@ -1,5 +1,5 @@
 import { api } from '@/lib/axios';
-import type { Movie, Genre } from './types.ts';
+import type {Report, Movie, Genre } from './types.ts';
 import type {CreateMovieFormData, EditMovieFormData} from "@/features/movies/schema.ts";
 
 export const fetchMovies = async () => {
@@ -29,5 +29,10 @@ export const removeMovie = async (id: string) => {
 
 export const updateMovie = async ({ id, movieData }: { id: string; movieData: EditMovieFormData }) => {
     const { data } = await api.patch(`/movies/${id}`, movieData)
+    return data
+}
+
+export const fetchShowtimeReport = async (movieId: string) => {
+    const { data } = await api.get<Report[]>(`/admin/reservations/${movieId}/report`)
     return data
 }

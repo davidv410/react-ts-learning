@@ -23,3 +23,13 @@ export type MovieWithGenre = {
         genreId: string;
     }
 }
+
+export type Report = {
+    showtimeId: string,
+    hall: string,
+    startsAt: string,
+    totalSeats: string,
+    seatsTaken: number,
+    seatsAvailable: number,
+    revenue: number,
+}
