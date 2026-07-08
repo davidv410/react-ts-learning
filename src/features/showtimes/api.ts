@@ -7,6 +7,7 @@ import type {
     ShowtimeWithMovie,
     ShowtimeResponse
 } from "@/features/showtimes/types.ts";
+import type {EditShowtimeFormData} from "@/features/showtimes/schema.ts";
 
 export const fetchShowtimes = async (movieId?: string) => {
     const { data } = await api.get<{ showtimes: ShowtimeWithMovie[] }>('/showtimes', {
@@ -37,5 +38,10 @@ export const createShowtime = async (showtime: unknown) => {
 
 export const removeShowtime = async (id: string) => {
     const { data } = await api.delete(`/showtimes/${id}`)
+    return data
+}
+
+export const editShowtime = async ({showtimeId, showtimeData}: {showtimeId: string, showtimeData: EditShowtimeFormData}) => {
+    const { data } = await api.patch(`/showtimes/${showtimeId}`, showtimeData)
     return data
 }

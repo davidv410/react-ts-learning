@@ -1,6 +1,7 @@
 import {useShowtime} from "@/features/showtimes/hooks/useShowtime.ts";
 import {useParams} from "react-router-dom";
 import {Seats} from "@/pages/seats.tsx";
+import {EditShowtimeForm} from "@/features/showtimes/components/EditShowtimeForm.tsx";
 
 export const ShowtimeDetail = () => {
     const { id = '' } = useParams()
@@ -19,7 +20,18 @@ export const ShowtimeDetail = () => {
             </div>
             )}
 
-            <Seats showtimeId={id}/>
+            <section>
+                <Seats showtimeId={id}/>
+            </section>
+
+
+            <div>
+                {data ?
+                    <EditShowtimeForm showtimeData={data} />
+                :
+                    <div>Showtime not found.</div>
+                }
+            </div>
         </>
     )
 }
