@@ -3,9 +3,8 @@ import type {
     Showtime,
     Seats,
     CreateReservationBody,
-    ReservationResponse,
     ShowtimeWithMovie,
-    ShowtimeResponse
+    ShowtimeDataBody
 } from "@/features/showtimes/types.ts";
 import type {EditShowtimeFormData} from "@/features/showtimes/schema.ts";
 
@@ -27,12 +26,12 @@ export const fetchSeats = async (id: string) => {
 }
 
 export const createReservation = async (reservation: CreateReservationBody) => {
-    const { data } = await api.post<ReservationResponse>('/reservations', reservation)
+    const { data } = await api.post('/reservations', reservation)
     return data
 }
 
-export const createShowtime = async (showtime: unknown) => {
-    const { data } = await api.post<ShowtimeResponse>('/showtimes', showtime)
+export const createShowtime = async (showtime: ShowtimeDataBody) => {
+    const { data } = await api.post('/showtimes', showtime)
     return data
 }
 

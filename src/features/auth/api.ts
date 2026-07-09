@@ -16,7 +16,7 @@ export const getMe = async () => {
     return data.user
 }
 
-export const registerUser = async (user: unknown) => {
-    const { data } = await api.post<RegisterFormData>('/auth/register', user)
+export const registerUser = async (user: RegisterFormData) => {
+    const { data } = await api.post('/auth/register', user)
     return data
 }
