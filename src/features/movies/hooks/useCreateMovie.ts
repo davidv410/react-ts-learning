@@ -15,6 +15,7 @@ export const useCreateMovie = () => {
     })
 
     const [movieSuccessMessage, setMovieSuccessMessage] = useState<string | null>(null);
+    const [serverError, setServerError] = useState<string | null>(null)
 
     const { mutate } = useMutation({
         mutationFn: createMovie,
@@ -22,19 +23,18 @@ export const useCreateMovie = () => {
             setMovieSuccessMessage("Movie added to db")
             reset()
         },
-        onError: (err) => {
-            console.log(err)
+        onError: (err: any) => {
+            setServerError(err.response?.data?.message)
         }
     })
 
     const submitForm = async (data: CreateMovieFormData) => {
         try{
-            console.log(data)
             mutate(data)
         }catch(err){
             console.log(err)
         }
     }
 
-    return { register, handleSubmit, submitForm, setValue, getValues, errors, isSubmitting, movieSuccessMessage }
+    return { register, handleSubmit, submitForm, setValue, getValues, errors, isSubmitting, movieSuccessMessage, serverError }
 }

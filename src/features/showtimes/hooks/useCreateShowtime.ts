@@ -11,14 +11,15 @@ export const useCreateShowtime = () => {
     })
 
     const [serverError, setServerError] = useState<string | null>(null)
+    const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
     const { mutate } = useMutation({
         mutationFn: createShowtime,
         onSuccess: () => {
             reset()
+            setSuccessMessage("Showtime created")
         },
         onError: (err: any) => {
-            console.log(err)
             setServerError(err.response?.data?.message ?? 'Something went wrong')
         }
     })
@@ -27,7 +28,6 @@ export const useCreateShowtime = () => {
         try{
             mutate({
                 ...data,
-                totalSeats: Number(data.totalSeats),
                 startsAt: new Date(data.startsAt),
                 endsAt: new Date(data.endsAt)
             })
@@ -37,5 +37,5 @@ export const useCreateShowtime = () => {
         }
     }
 
-    return { register, handleSubmit, submitForm, setValue, getValues, errors, isSubmitting, serverError }
+    return { register, handleSubmit, submitForm, setValue, getValues, errors, isSubmitting, serverError, successMessage }
 }

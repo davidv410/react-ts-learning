@@ -2,7 +2,7 @@ import {useCreateMovie} from "@/features/movies/hooks/useCreateMovie.ts";
 import {useGenres} from "@/features/movies/hooks/useGenres.ts";
 
 export const CreateMovieForm = () => {
-    const { register, handleSubmit, submitForm, errors, isSubmitting, movieSuccessMessage } = useCreateMovie();
+    const { register, handleSubmit, submitForm, errors, isSubmitting, movieSuccessMessage, serverError } = useCreateMovie();
 
     const { data, isLoading, error } = useGenres()
 
@@ -36,8 +36,10 @@ export const CreateMovieForm = () => {
                         </>
                     ))
                 }
-                { movieSuccessMessage && <p className="accent-green-500">{movieSuccessMessage}</p>}
                 {errors.genreIds && <p className="text-red-500">{errors.genreIds.message}</p>}
+
+                { movieSuccessMessage && <p className="text-green-500">{movieSuccessMessage}</p>}
+                { serverError && <p className="text-red-500">{serverError}</p>}
 
                 <button className="border cursor-pointer" type="submit" disabled={isSubmitting}>
                     {isSubmitting ? 'ADDING MOVIE...' : 'ADD MOVIE'}
