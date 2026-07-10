@@ -4,10 +4,13 @@ import {useForm} from "react-hook-form";
 import {type LoginFormData, loginSchema} from "@/features/auth/schema.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {loginUser} from "@/features/auth/api.ts";
+import {useState} from "react";
 
 export const useLogin = () => {
     const { login } = useAuth()
     const navigate = useNavigate()
+
+    const [serverError, setServerError] = useState<string | null>(null)
 
     const {
         register,
@@ -21,13 +24,12 @@ export const useLogin = () => {
     const submitForm = async (data: LoginFormData) => {
         try{
             const response = await loginUser(data)
-            console.log(response)
             login(response.user)
             navigate('/')
-        }catch(err){
-            console.log(err)
+        }catch(err: any){
+            setServerError(err.response?.data?.message)
         }
     }
 
-    return { register, handleSubmit, submitForm, errors, isSubmitting }
+    return { register, handleSubmit, submitForm, serverError, errors, isSubmitting }
 }
