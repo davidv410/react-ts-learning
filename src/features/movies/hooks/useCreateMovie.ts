@@ -8,7 +8,10 @@ import {useState} from "react";
 
 export const useCreateMovie = () => {
     const { register, handleSubmit, setValue, getValues, reset, formState: { errors, isSubmitting }} = useForm<CreateMovieFormData>({
-        resolver: zodResolver(createMovieSchema)
+        resolver: zodResolver(createMovieSchema),
+        defaultValues: {
+            genreIds: []
+        }
     })
 
     const [movieSuccessMessage, setMovieSuccessMessage] = useState<string | null>(null);
@@ -26,6 +29,7 @@ export const useCreateMovie = () => {
 
     const submitForm = async (data: CreateMovieFormData) => {
         try{
+            console.log(data)
             mutate(data)
         }catch(err){
             console.log(err)

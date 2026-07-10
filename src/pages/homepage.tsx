@@ -24,7 +24,7 @@ export const Homepage = () => {
             { user &&
                 <div>
                     <p>{user.email}</p>
-                    <button onClick={() => handleLogout()}>Logout</button>
+                    <button onClick={() => handleLogout()} className="text-red-500">Logout</button>
                     <li><button className="cursor-pointer border" onClick={() => navigate('/reservations')}>reservations</button></li>
                 </div>
             }
