@@ -23,8 +23,10 @@ export const Reservations = () => {
                     <div className="border">
                         <p>{item.seats.row} - {item.seats.number}</p>
                         <p>{item.seats.price} KM</p>
-                        { item.reservations.status === 'cancelled' ? 'reservations has be cancelled' :
-                        <button className="cursor-pointer" onClick={() => mutate(item.reservations.id)}>CANCEL RESERVATIONS</button>
+                        { item.reservations.status === 'cancelled' ?
+                        <p className="text-gray-500">reservation has been cancelled</p>
+                        :
+                        <button className="cursor-pointer text-red-500" onClick={() => mutate(item.reservations.id)}>CANCEL RESERVATION</button>
                         }
                     </div>
                 ))

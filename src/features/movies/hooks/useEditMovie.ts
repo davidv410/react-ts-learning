@@ -5,7 +5,7 @@ import {type EditMovieFormData, editMovieSchema} from "@/features/movies/schema.
 import {useMutation} from "@tanstack/react-query";
 import {updateMovie} from "@/features/movies/api.ts";
 import {useQueryClient} from "@tanstack/react-query";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
 export const useEditMovie = (movie: Movie) => {
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<EditMovieFormData>({
@@ -28,10 +28,12 @@ export const useEditMovie = (movie: Movie) => {
     }, [movie])
 
     const queryClient = useQueryClient();
+    const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
     const { mutate } = useMutation({
         mutationFn: updateMovie,
         onSuccess: () => {
+            setSuccessMessage("movie updated")
             queryClient.invalidateQueries({ queryKey: ['movie', movie.id] });
             reset()
         },
@@ -49,5 +51,5 @@ export const useEditMovie = (movie: Movie) => {
         }
     }
 
-    return { register, handleSubmit, submitForm, errors, isSubmitting }
+    return { register, handleSubmit, submitForm, errors, isSubmitting, successMessage }
 }

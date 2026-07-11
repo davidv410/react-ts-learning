@@ -49,7 +49,7 @@ export const MovieDetail = () => {
                 <div className="mt-5">
                     <button className="cursor-pointer border" onClick={() => toggleForm()}>EDIT MOVIE</button>
                     <br/>
-                    <button className="cursor-pointer border" onClick={() => mutate(movieData.id)} disabled={isPending}>
+                    <button className="cursor-pointer border text-red-500 mt-5 mb-5" onClick={() => mutate(movieData.id)} disabled={isPending}>
                         REMOVE MOVIE
                     </button>
                     <br/>
@@ -62,7 +62,7 @@ export const MovieDetail = () => {
             }
 
             { user && user.role === 'admin' ?
-            <>
+            <div className="mt-10 mb-10">
             <h1>SHOWTIME REPORT</h1>
 
 
@@ -86,7 +86,7 @@ export const MovieDetail = () => {
                 <p>No reports available.</p>
             )}
 
-            </> : null
+            </div> : null
             }
         </>
     )

@@ -4,18 +4,18 @@ import {useGenres} from "@/features/movies/hooks/useGenres.ts";
 
 export const EditMovieForm = ({ movie }: { movie: Movie }) => {
 
-    const { register, handleSubmit, submitForm, isSubmitting } = useEditMovie(movie)
+    const { register, handleSubmit, submitForm, isSubmitting, successMessage } = useEditMovie(movie)
 
     const { data, isLoading, error } = useGenres()
 
     return(
         <>
          <form onSubmit={handleSubmit(submitForm)}>
-             <input {...register('title')} className="border"></input><br/>
+             <input {...register('title')} className="border" placeholder="title"></input><br/>
 
-             <input {...register('description')} className="border"></input><br/>
+             <input {...register('description')} className="border" placeholder="description"></input><br/>
 
-             <input {...register('durationMinutes', { valueAsNumber: true })} className="border"></input><br/>
+             <input {...register('durationMinutes', { valueAsNumber: true })} className="border" placeholder="duration minutes"></input><br/>
 
              {isLoading && <p>Loading genres...</p>}
              {error && <p>Failed to load genres</p>}
@@ -34,6 +34,7 @@ export const EditMovieForm = ({ movie }: { movie: Movie }) => {
                  ))
              }
 
+             { successMessage && <p className="text-green-500">{successMessage}</p> }
              <button className="border" type="submit" disabled={isSubmitting}>APPLY EDITS</button>
          </form>
         </>
