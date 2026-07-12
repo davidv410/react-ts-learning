@@ -5,20 +5,26 @@ import {useCreateReservation} from "@/features/showtimes/hooks/useCreateReservat
 
 export const Seats = ({ showtimeId }: SeatsProps) => {
 
-    const [selectedSeats, setSelectedSeats] = useState<string[]>([])
+    type seatType = {
+        id: string;
+        row: string;
+        number: number;
+    }
 
-    const { mutate } = useCreateReservation()
+    const [selectedSeats, setSelectedSeats] = useState<seatType[]>([])
+
+    const { mutate } = useCreateReservation(showtimeId)
 
     const { data, isLoading, error } = useSeats(showtimeId)
 
-    const addSeats = (seatId: string) => {
-        setSelectedSeats(prev => prev.includes(seatId) ? prev.filter(id => id !== seatId) : [...prev, seatId])
+    const addSeats = (seat: seatType) => {
+        setSelectedSeats(prev => prev.some(s => s.id === seat.id) ? prev.filter(s => s.id !== seat.id) : [...prev, seat])
     }
 
     const confirmSeatReservation = () => {
         if(selectedSeats.length === 0){ return console.log("no seats selected") }
-        selectedSeats.forEach(seatId => {
-            mutate({ showtimeId, seatId }, {
+        selectedSeats.forEach(seat => {
+            mutate({ showtimeId, seatId: seat.id }, {
                 onSuccess: (data) => {
                     console.log('Reservation created:', data)
                 },
@@ -44,17 +50,21 @@ export const Seats = ({ showtimeId }: SeatsProps) => {
                     {seat.isAvailable ?
                         <>
                         <p>available</p>
-                        <button className="cursor-pointer" onClick={() => addSeats(seat.id)}>BOOK</button>
+                        <button className="cursor-pointer border" onClick={() => addSeats(seat)}>BOOK</button>
+                            {/*ili addSeats({ id: seat.id, row: seat.row, number: seat.number })*/}
                         </>
                         :
-                        <p>taken</p>
+                        <p className="text-gray-600">taken</p>
                     }
 
                 </div>
             ))}
             </section>
             {selectedSeats.map(seat => (
-                <p>{seat}</p>
+                <div className="border">
+                    <p>{seat.id}</p>
+                    <p>{seat.row}-{seat.number}</p>
+                </div>
             ))}
             <button onClick={confirmSeatReservation} className="cursor-pointer">confirm bookings</button>
         </>

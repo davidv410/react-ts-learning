@@ -28,7 +28,7 @@ export const ShowtimeDetail = () => {
             </section>
 
             {user?.role === 'admin' &&
-                <div>
+                <div className="mt-20">
                     {data ?
                         <EditShowtimeForm showtimeData={data}/>
                         :

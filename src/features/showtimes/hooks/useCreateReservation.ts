@@ -1,8 +1,13 @@
 import {useMutation} from "@tanstack/react-query";
 import {createReservation} from "@/features/showtimes/api.ts";
+import {useQueryClient} from "@tanstack/react-query";
 
-export const useCreateReservation = () => {
+export const useCreateReservation = (showtimeId: string) => {
+    const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: createReservation
+        mutationFn: createReservation,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['seats', showtimeId] })
+        }
     })
 }
