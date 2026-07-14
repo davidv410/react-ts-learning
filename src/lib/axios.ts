@@ -5,26 +5,25 @@ const api = axios.create({
     withCredentials: true
 })
 
-api.interceptors.response.use((response) => response,
-    async (error) => {
+export const publicApi = axios.create({
+    baseURL: 'http://localhost:5000',
+    withCredentials: true
+})
+
+api.interceptors.response.use(
+    response => response,
+    async error => {
         const originalRequest = error.config
 
-        if (originalRequest.url?.includes('/auth/refresh')) {
-            if (window.location.pathname !== '/login') {
-                window.location.href = "/login"
-            }
-            return Promise.reject(error)
-        }
-
-        if(error.response?.status === 401 && !originalRequest._retry && !originalRequest.url?.includes('/auth/me')){
+        if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true
 
-            try{
-                await api.post('/auth/refresh')
+            try {
+                await publicApi.post('/auth/refresh')
                 return api(originalRequest)
-            }catch(err: any){
+            } catch {
                 if (window.location.pathname !== '/login') {
-                    window.location.href = "/login"
+                    window.location.href = '/login'
                 }
             }
         }

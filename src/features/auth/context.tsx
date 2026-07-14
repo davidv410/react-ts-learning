@@ -1,30 +1,33 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { getMe } from "./api.ts";
 import type { User } from "@/features/auth/types.ts";
+import {publicApi} from "@/lib/axios.ts";
 
-//STRUKTURA KONTEKSTA
 type AuthContextType = {
     user: User | null
     login: (user: User) => void
     logout: () => void
 }
 
-//KREACIJA KONTEXTA
 const AuthContext = createContext<AuthContextType | null>(null)
 
-//SETANJE CONTEXTA
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User | null>(null)
     const [loading, setLoading] = useState(true)
 
-    //DRZI USER APDEJTANIM SVE DOK PROTECT / ME IZ BACKENDA VRACA REQ.USER
     useEffect(() => {
         const getUserInfo = async () => {
             try {
                 const user = await getMe()
                 setUser(user)
             } catch {
-                setUser(null)
+                try {
+                    await publicApi.post('/auth/refresh')
+                    const user = await getMe()
+                    setUser(user)
+                } catch {
+                    setUser(null)
+                }
             } finally {
                 setLoading(false)
             }
@@ -33,7 +36,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }, [])
 
     if (loading) return <p>Loading...</p>
-    const login = (user: User) => setUser(user) //PRVI SET USERA
+    const login = (user: User) => setUser(user)
     const logout = () => setUser(null)
 
     return (
