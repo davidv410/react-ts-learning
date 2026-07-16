@@ -16,7 +16,7 @@ export const MovieDetail = () => {
     const {mutate, isPending} = useRemoveMovie();
 
     const {data: movieData, isLoading: movieLoading, error: movieError} = useMovie(id)
-    const {data: showtimeReport, isLoading: showtimeLoading, error: showtimeError} = useShowtimeReport(id)
+    const {data: showtimeReport, isLoading: showtimeLoading, error: showtimeError} = useShowtimeReport(id, user?.role === 'admin')
     const {data, isLoading, error} = useShowtimes(id)
 
     const [form, setForm] = useState<boolean>(false)

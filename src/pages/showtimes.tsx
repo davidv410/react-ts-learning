@@ -9,7 +9,7 @@ export const Showtimes = () => {
     const { user } = useAuth()
 
     const { data, isLoading, error } = useShowtimes()
-    console.log(data)
+
     const { mutate, isPending } = useRemoveShowtime()
 
     if(isLoading) return <p>Loading</p>
