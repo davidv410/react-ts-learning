@@ -37,14 +37,16 @@ export const MovieDetail = () => {
                 <li>{movieData.durationMinutes}</li>
             </ul>
 
-            {(data ?? []).map(item => (
-                <div className="border" key={item.showtimes.id}>
-                    <p>{item.showtimes.hall}</p>
-                    <p>Starts at {item.showtimes.startsAt}</p>
-                    <p>total seats: {item.showtimes.totalSeats}</p>
-                    <button onClick={() => navigate(`/showtimes/${item.showtimes.id}`)}>CHECK SEATS</button>
-                </div>
-            ))}
+            {data && data.length > 0 ?
+                data.map(item => (
+                    <div className="border" key={item.showtimes.id}>
+                        <p>{item.showtimes.hall}</p>
+                        <p>Starts at {item.showtimes.startsAt}</p>
+                        <p>total seats: {item.showtimes.totalSeats}</p>
+                        <button onClick={() => navigate(`/showtimes/${item.showtimes.id}`)}>CHECK SEATS</button>
+                    </div>
+                )) : 'No showtimes available'
+            }
             {user?.role === "admin" &&
                 <div className="mt-5">
                     <button className="cursor-pointer border" onClick={() => toggleForm()}>EDIT MOVIE</button>
