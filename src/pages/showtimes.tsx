@@ -23,7 +23,7 @@ export const Showtimes = () => {
                        <p>{item.showtimes.hall}</p>
                        <p>{item.showtimes.totalSeats} seats</p>
                        <p>{item.showtimes.startsAt}</p>
-                       { item.movies ? <p>Playing: {item.movies.title}</p> : <p>Movie was deleted, fix in DB</p> }
+                       { item.movies && <p>Playing: {item.movies.title}</p> }
 
                        <button onClick={() => navigate(`/showtimes/${item.showtimes.id}`)} className="border cursor-pointer">CHECK SEATS</button>
 

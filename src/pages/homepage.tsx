@@ -10,8 +10,16 @@ export const Homepage = () => {
 
     const navigate = useNavigate()
 
-    const [showMovieForm, setShowMovieForm] = useState(false)
+    const [movieForm, setMovieForm] = useState(false)
     const [showtimeForm, setShowtimeForm] = useState(false)
+
+    const handleMovieForm = () => {
+        setMovieForm(!movieForm)
+    }
+
+    const handleShowtimeForm = () => {
+        setShowtimeForm(!showtimeForm)
+    }
 
     const handleLogout = async () => {
         await logoutUser()
@@ -23,22 +31,24 @@ export const Homepage = () => {
         <>
             { user &&
                 <div>
-                    <p>{user.email}</p>
+                    <p>{user.role} - {user.email}</p>
                     <button onClick={() => handleLogout()} className="text-red-500">Logout</button>
-                    <li><button className="cursor-pointer border" onClick={() => navigate('/reservations')}>reservations</button></li>
                 </div>
             }
 
             <ul>
+                { user &&
+                <li><button className="cursor-pointer border" onClick={() => navigate('/reservations')}>reservations</button></li>
+                }
                 <li><button className="cursor-pointer border" onClick={() => navigate('/movies')}>movies</button></li>
                 <li><button className="cursor-pointer border" onClick={() => navigate('/showtimes')}>showtimes</button></li>
             </ul>
 
             { user?.role === "admin" &&
                 <>
-                    <button className="border" onClick={() => setShowMovieForm(!showMovieForm)}>Add movies</button><br></br>
-                    <button className="border" onClick={() => setShowtimeForm(!showtimeForm)}>Create showtimes</button>
-                    { showMovieForm &&
+                    <button className={`border cursor-pointer ${movieForm ? 'text-gray-400' : ''}`} onClick={() => handleMovieForm()}>Add movies</button><br></br>
+                    <button className={`border cursor-pointer ${showtimeForm ? 'text-gray-400' : ''}`} onClick={() => handleShowtimeForm()}>Create showtimes</button>
+                    { movieForm &&
                         <CreateMovieForm/>
                     }
                     { showtimeForm &&
